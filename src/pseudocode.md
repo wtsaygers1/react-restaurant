@@ -56,7 +56,7 @@ class Menu extends React.Component
                 - column
                     - header {this.state.name} {this.state.address}
             - separate menu components
-                -separate item components
+                -separate item components - already in the menuSec function
             - row
                 - column
                     - contact {this.state.contact}
