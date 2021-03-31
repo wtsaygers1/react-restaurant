@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios";
+import Section from "./Section"
 
 class Menu extends React.Component {
     constructor() {
         super();
         this.state = {
-            name: this.name,
-            address: this.address,
-            contact: this.contact,
+            name: "Walt's Restaurant for People Who Can't Cook Good and Want to Pay Me Good to Cook for Them Too",
+            // address: this.address,
+            // contact: this.contact,
             menuData: {
                 "breakfast": {
                     label: "Bomb Breakfast",
@@ -56,7 +57,7 @@ class Menu extends React.Component {
                     items: [],
                     highPrice: 17,
                     lowPrice: 9
-                },  
+                },
                 "sauces": {
                     label: "Drizzle",
                     items: [],
@@ -69,7 +70,7 @@ class Menu extends React.Component {
 
     componentDidMount() {
         let apiURL = "http://awesomeincbootcampapi-ianrios529550.codeanyapp.com:3000/public/api/menu/items/200";
-        
+
         axios.get(apiURL)
             .then((response) => {
                 console.log(response)
@@ -81,7 +82,7 @@ class Menu extends React.Component {
                         obj.menuTitle = tmpObj[obj.meal_type.type].label;
                         tmpObj[obj.meal_type.type].items.push(obj);
                         tmpObj[obj.meal_type.type].items = tmpObj[obj.meal_type.type].items.slice(0, 12);
-                    } 
+                    }
                 })
                 this.setState({ menuData: tmpObj })
             })
@@ -95,10 +96,25 @@ class Menu extends React.Component {
     }
 
     render() {
+        const mappedSections = Object.keys(this.state.menuData).map((sectionName, index) => {
+            return (
+                <Section
+                    key={index}
+                    sectionName={sectionName}
+                    sectionData={this.state.menuData[sectionName]}
+                />
+            )
+        });
+
         return (
-            <div className="Header">
-                name={this.Restaurant}
-            </div>
+            <>
+                <div className="Header">
+                    <h1>{this.state.name}</h1>
+                </div>
+                <div>
+                    {mappedSections}
+                </div>
+            </>
         )
     }
 
