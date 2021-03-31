@@ -27,7 +27,7 @@ class Menu extends React.Component {
                     highPrice: 57,
                     lowPrice: 17
                 },
-                "apps": {
+                "appetizers": {
                     label: "Snappy Appies",
                     items: [],
                     highPrice: 13,
@@ -69,19 +69,21 @@ class Menu extends React.Component {
 
     componentDidMount() {
         let apiURL = "http://awesomeincbootcampapi-ianrios529550.codeanyapp.com:3000/public/api/menu/items/200";
+        
         axios.get(apiURL)
             .then((response) => {
                 console.log(response)
 
-                let tmpArray = this.state.menuData;
+                let tmpObj = this.state.menuData;
                 response.data.map(obj => {
-                    if (tmpArray[obj.meal_type.type]) {
-                        obj.price = tmpArray[obj.meal_type.type].highPrice;
-                        obj.menuTitle = tmpArray[obj.meal_type.type].label;
-                        tmpArray[obj.meal_type.type].items.push(obj);
-                    }
+                    if (tmpObj[obj.meal_type.type]) {
+                        obj.price = tmpObj[obj.meal_type.type].highPrice;
+                        obj.menuTitle = tmpObj[obj.meal_type.type].label;
+                        tmpObj[obj.meal_type.type].items.push(obj);
+                        tmpObj[obj.meal_type.type].items = tmpObj[obj.meal_type.type].items.slice(0, 12);
+                    } 
                 })
-                this.setState({ menuData: tmpArray })
+                this.setState({ menuData: tmpObj })
             })
             .catch((error) => {
                 console.log(error)
@@ -94,8 +96,8 @@ class Menu extends React.Component {
 
     render() {
         return (
-            <div>
-                Hi
+            <div className="Header">
+                name={this.Restaurant}
             </div>
         )
     }
