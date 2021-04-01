@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
-import Section from "./Section"
+import Section from "./Section";
+// import Item from "./Section";
 
 class Menu extends React.Component {
     constructor() {
@@ -78,11 +79,15 @@ class Menu extends React.Component {
                 let tmpObj = this.state.menuData;
                 response.data.map(obj => {
                     if (tmpObj[obj.meal_type.type]) {
-                        obj.price = tmpObj[obj.meal_type.type].highPrice;
+                        // assigning new param to current obj
+                        obj.highPrice = tmpObj[obj.meal_type.type].highPrice;
+                        obj.lowPrice = tmpObj[obj.meal_type.type].lowPrice;
                         obj.menuTitle = tmpObj[obj.meal_type.type].label;
+                        // saving obj in current sections items
                         tmpObj[obj.meal_type.type].items.push(obj);
                         tmpObj[obj.meal_type.type].items = tmpObj[obj.meal_type.type].items.slice(0, 12);
                     }
+                    // console.log(tmpObj);
                 })
                 this.setState({ menuData: tmpObj })
             })
@@ -90,21 +95,34 @@ class Menu extends React.Component {
                 console.log(error)
             })
     }
-    // in componentDidUpdate - send state to local storage
     componentDidUpdate() {
         window.localStorage.setItem("menuData", JSON.stringify(this.state.menuData))
     }
 
     render() {
-        const mappedSections = Object.keys(this.state.menuData).map((sectionName, index) => {
+        const sectionKeys = Object.keys(this.state.menuData)
+        const sectionValues = Object.values(this.state.menuData)
+        // console.log(sectionKeys);
+        console.log(sectionValues);
+        const mappedSections = sectionValues.map((section, index) => {
             return (
                 <Section
                     key={index}
-                    sectionName={sectionName}
-                    sectionData={this.state.menuData[sectionName]}
+                    // sectionName={sectionName}
+                    // sectionData={this.state.menuData[sectionName]}
+                    sectionData={section}
                 />
             )
         });
+        
+        // const mappedItems = Object.keys(this.state.menuData).map((itemName, itemPrice, itemDes, index) => {
+        //     return (
+        //         <Item 
+        //             key={index}
+        //             item={item}
+        //         />
+        //     )
+        // });
 
         return (
             <>
