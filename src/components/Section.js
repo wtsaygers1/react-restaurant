@@ -7,8 +7,6 @@ function Section(props) {
         return (
             <Item
                 key={index}
-                // sectionName={sectionName}
-                // sectionData={this.state.menuData[sectionName]}
                 itemData={item}
             />
         )
@@ -18,6 +16,7 @@ function Section(props) {
         <div className="row menuSection">
             <h3>
                 {props.sectionData.label}
+                ${props.sectionData.lowPrice}...${props.sectionData.highPrice}
             </h3>
            <ul>
                {mappedItems}

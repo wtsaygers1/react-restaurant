@@ -8,9 +8,8 @@ function Items(props) {
 
             <li className="row menuItems">
                 {props.itemData.name}
-                {props.itemData.highPrice}
-                {props.itemData.description}
-
+                {/* {props.itemData.highPrice} */}
+                <span>{props.itemData.description}</span>
             </li>
         
 
